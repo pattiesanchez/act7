@@ -1,0 +1,38 @@
+# Node dependencies
+node_modules
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Local env files
+.env
+.env.*
+!.env.example
+
+# Python
+backend/venv/
+backend/.venv/
+__pycache__/
+*.pyc
+
+# Django
+db.sqlite3
+media/
+
+# Nuxt
+frontend/node_modules/
+frontend/.nuxt/
+frontend/.output/
+frontend/dist/
+
+# VSCode
+.vscode/
+
+# Logs
+*.log
