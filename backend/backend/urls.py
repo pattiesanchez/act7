@@ -24,7 +24,7 @@ urlpatterns = [
     path('', include('act7.urls')),
     path('api/v1/', include('exemplo.urls')),
     path('api/v1/', include('categorias.urls')),
-
+    path('api/v1/', include('receitas.urls')),
 
     path('api-auth/', include('rest_framework.urls')),
 ]
