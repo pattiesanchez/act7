@@ -54,3 +54,11 @@ class Classe2(APIView):
             return JsonResponse({"estado":"ok", "mensagem":"Categoria modificada com sucesso"}, status=HTTPStatus.OK)
         except Categoria.DoesNotExist:
             raise Http404("Categoria nao encontrada")
+
+    def delete(self, request, id):
+        try:
+            data = Categoria.objects.get(pk=id)
+            data.delete()
+            return JsonResponse({"estado":"ok", "mensagem":"Categoria eliminada com sucesso"}, status=HTTPStatus.OK)
+        except Categoria.DoesNotExist:
+            raise Http404("Categoria nao encontrada")
