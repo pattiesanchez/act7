@@ -6,8 +6,6 @@ from django.utils import timezone
 #chamada do modulo utilidades
 from utilidades import utilidades 
 
-# Create your views here.
-
 class Classe1(APIView): 
 
     def post(self, request): 
@@ -21,7 +19,57 @@ class Classe1(APIView):
             return JsonResponse({"error":"O campo mensagem é obrigatório"}, status=HTTPStatus.BAD_REQUEST)
 
         try:
-            Contato.objects.create(nome=request.data['nome'], email=request.data['email'], telefone=request.data['telefone'], mensagem=request.data['mensagem'], data=timezone.now())
-        except Exception as e:
-            return JsonResponse({"error":"Erro inesperado"}, status=HTTPStatus.BAD_REQUEST)
-        return JsonResponse({"success":"Registro criado com sucesso"}, status=HTTPStatus.OK)
+            Contato.objects.create(
+                nome=request.data["nome"],
+                email=request.data["email"],
+                telefone=request.data["telefone"],
+                mensagem=request.data["mensagem"],
+                data=timezone.now()
+            )
+        except Exception:
+            logger.exception("Falha ao salvar contato")
+
+            return JsonResponse(
+                {"error": "Erro ao salvar o contato"},
+                status=HTTPStatus.INTERNAL_SERVER_ERROR
+            )
+
+        try:
+            from django.utils.html import format_html
+
+            html = format_html(
+                """
+                <h1>Você tem uma nova mensagem da web</h1>
+                <ul>
+                    <li>Nome: {}</li>
+                    <li>Email: {}</li>
+                    <li>Telefone: {}</li>
+                    <li>Mensagem: {}</li>
+                </ul>
+                """,
+                request.data["nome"],
+                request.data["email"],
+                request.data["telefone"],
+                request.data["mensagem"]
+            )
+
+            utilidades.sendMail(
+                html,
+                "Nova mensagem do site",
+                request.data["email"]
+            )
+        except Exception:
+            logger.exception("Contato salvo, mas houve falha no envio do email")
+
+            return JsonResponse(
+                {
+                    "success": "Registro criado com sucesso",
+                    "aviso": "Falha ao enviar o email"
+                },
+                status=HTTPStatus.CREATED
+            )
+
+        return JsonResponse(
+            {"success": "Registro criado e email enviado com sucesso"},
+            status=HTTPStatus.CREATED
+        )
