@@ -47,25 +47,26 @@ class Classe1(APIView):
         except Exception as e:
             return JsonResponse({"error": "Insira uma foto no campo file"}, status=HTTPStatus.BAD_REQUEST)
 
-        try: 
-            fs.save(f"receitas/{foto}", request.FILES['foto'])
-            fs.url(request.FILES['foto'])
-        except Exception as e:
-            return JsonResponse({"error": "Erro ao inserir a foto"}, status=HTTPStatus.BAD_REQUEST)
+        if request.FILES['foto'].content_type=='image/jpeg' or request.FILES['foto'].content_type=='image/png':
+            try: 
+                fs.save(f"receitas/{foto}", request.FILES['foto'])
+                fs.url(request.FILES['foto'])
+            except Exception as e:
+                return JsonResponse({"error": "Erro ao inserir a foto"}, status=HTTPStatus.BAD_REQUEST)
 
-        try:
-            Receita.objects.create(
-                categoria_id=(request.data.get('categoria_id')),
-                nome=(request.data.get('nome')),
-                tempo=(request.data.get('tempo')),
-                foto=foto,
-                descricao=(request.data['descricao']),
-                fecha=datetime.now()
-            )
-            return JsonResponse({"message": "Receita criada com sucesso!"}, status=HTTPStatus.CREATED)
-        except Exception as e:
-            return JsonResponse({"error": str(e)}, status=HTTPStatus.BAD_REQUEST)
-
+            try:
+                Receita.objects.create(
+                    categoria_id=(request.data.get('categoria_id')),
+                    nome=(request.data.get('nome')),
+                    tempo=(request.data.get('tempo')),
+                    foto=foto,
+                    descricao=(request.data['descricao']),
+                    fecha=datetime.now()
+                )
+                return JsonResponse({"message": "Receita criada com sucesso!"}, status=HTTPStatus.CREATED)
+            except Exception as e:
+                return JsonResponse({"error": str(e)}, status=HTTPStatus.BAD_REQUEST)
+        return JsonResponse({"error": "Formato de imagem invalido. Apenas JPEG e PNG sao aceitos"}, status=HTTPStatus.BAD_REQUEST)
 
 class Classe2(APIView):
     
@@ -83,3 +84,52 @@ class Classe2(APIView):
         fs.save(f"exemplo/{foto}", request.FILES['foto'])
         fs.url(request.FILES['foto'])
         return JsonResponse({"estado":"ok", "mensagem":f"Arquivo '{request.FILES['foto'].name}' enviado com sucesso!"}, status=HTTPStatus.CREATED)
+
+    def put(self, request, id):
+
+        try: 
+            data = Receita.objects.get(id=id)
+        except Receita.DoesNotExist:
+            raise Http404("Receita nao encontrada")
+
+        if request.data.get('nome')==None or not request.data['nome']:
+            return JsonResponse({"error": "O campo nome é obrigatório"}, status=HTTPStatus.BAD_REQUEST)
+        if request.data.get('categoria_id')==None or not request.data['categoria_id']:
+            return JsonResponse({"error": "O campo categoria_id é obrigatório"}, status=HTTPStatus.BAD_REQUEST)
+        if request.data.get('tempo')==None or not request.data['tempo']:
+            return JsonResponse({"error": "O campo tempo é obrigatório"}, status=HTTPStatus.BAD_REQUEST)
+        if request.data.get('descricao')==None or not request.data['descricao']:
+            return JsonResponse({"error": "O campo descricao é obrigatório"}, status=HTTPStatus.BAD_REQUEST)
+
+        #validacao do categoria_id 
+        try: 
+            categoria = Categoria.objects.get(pk=request.data['categoria_id'])
+        except Categoria.DoesNotExist:
+            return JsonResponse({"error": "Categoria nao encontrada"}, status=HTTPStatus.BAD_REQUEST)
+
+        try:
+            Receita.objects.filter(pk=id).update(
+                categoria_id=(request.data.get('categoria_id')),
+                slug=slugify(request.data.get('nome')),
+                nome=(request.data.get('nome')),
+                tempo=(request.data.get('tempo')),
+                descricao=(request.data.get('descricao'))
+            )
+            return JsonResponse({"success": "Receita atualizada com sucesso"}, status=HTTPStatus.OK)
+        except Exception as e:
+            return JsonResponse({"error": "Erro ao atualizar a receita"}, status=HTTPStatus.BAD_REQUEST)
+    
+    def delete(self, request, id):
+        try: 
+            data = Receita.objects.get(id=id)
+        except Receita.DoesNotExist:
+            raise Http404("Receita nao encontrada")
+
+        #remover os anexos da pasta de uploads do sistema 
+        os.remove(f"./uploads/receitas/{data.foto}")
+        
+        try:
+            data.delete()
+            return JsonResponse({"success": "Receita deletada com sucesso"}, status=HTTPStatus.OK)
+        except Exception as e:
+            return JsonResponse({"error": "Erro ao deletar a receita"}, status=HTTPStatus.BAD_REQUEST)
