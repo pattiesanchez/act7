@@ -36,8 +36,8 @@ class Class_ExemploUpload(APIView):
 
     def post(self, request):
         fs = FileSystemStorage()
-        fecha = datetime.now()
-        foto = f"{datetime.timestamp(fecha)}{os.path.splitext(str(request.FILES['file']))[1]}"
+        data = datetime.now()
+        foto = f"{datetime.timestamp(data)}{os.path.splitext(str(request.FILES['file']))[1]}"
         fs.save(f"exemplo/{foto}", request.FILES['file'])
         fs.url(request.FILES['file'])
         return JsonResponse({"estado":"ok", "mensagem":f"Arquivo '{request.FILES['file'].name}' enviado com sucesso!"}, status=HTTPStatus.CREATED)

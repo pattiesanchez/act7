@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('tempo', models.CharField(max_length=100)),
                 ('foto', models.CharField(max_length=100)),
                 ('descricao', models.TextField()),
-                ('fecha', models.DateTimeField(auto_now_add=True)),
+                ('data', models.DateTimeField(auto_now_add=True)),
                 ('categoria', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='categorias.categoria')),
             ],
             options={

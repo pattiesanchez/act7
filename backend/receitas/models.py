@@ -11,7 +11,7 @@ class Receita(models.Model):
     tempo = models.CharField(max_length=100, null=False)
     foto = models.CharField(max_length=100, null=False)
     descricao = models.TextField()
-    fecha = models.DateTimeField(auto_now_add=True, null=False)
+    data = models.DateTimeField(auto_now_add=True, null=False)
 
     def __str__(self):
         return self.nome

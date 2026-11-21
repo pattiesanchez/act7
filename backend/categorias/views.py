@@ -6,6 +6,7 @@ from .serializers import *
 from http import HTTPStatus
 from django.http import Http404
 from django.utils.text import slugify
+from receitas.models import *
 
 # Create your views here.
 
@@ -58,7 +59,12 @@ class Classe2(APIView):
     def delete(self, request, id):
         try:
             data = Categoria.objects.get(pk=id)
-            data.delete()
-            return JsonResponse({"estado":"ok", "mensagem":"Categoria eliminada com sucesso"}, status=HTTPStatus.OK)
         except Categoria.DoesNotExist:
             raise Http404("Categoria nao encontrada")
+
+        if Receita.objects.filter(categoria_id=id).exists():
+            return JsonResponse({"error":"Erro inesperado"}, status=HTTPStatus.BAD_REQUEST)
+
+        Categoria.objects.get(pk=id)
+        data.delete()
+        return JsonResponse({"estado":"ok", "mensagem":"Categoria eliminada com sucesso"}, status=HTTPStatus.OK)

@@ -61,7 +61,7 @@ class Classe1(APIView):
                     tempo=(request.data.get('tempo')),
                     foto=foto,
                     descricao=(request.data['descricao']),
-                    fecha=datetime.now()
+                    data=datetime.now()
                 )
                 return JsonResponse({"message": "Receita criada com sucesso!"}, status=HTTPStatus.CREATED)
             except Exception as e:
@@ -73,14 +73,14 @@ class Classe2(APIView):
     def get(self, request, id):
         try:
             data = Receita.objects.get(id=id)
-            return JsonResponse({"data":{"id": data.id, "nome": data.nome, "slug": data.slug, "tempo": data.tempo, "descricao": data.descricao, "fecha": DateFormat(data.fecha).format("d/m/Y H:i:s"), "categoria_id": data.categoria_id, "categoria": data.categoria.nome, "imagem":f"{os.getenv('BASE_URL')}/uploads/receitas/{data.foto}"}}, status=HTTPStatus.OK)
+            return JsonResponse({"data":{"id": data.id, "nome": data.nome, "slug": data.slug, "tempo": data.tempo, "descricao": data.descricao, "data": DateFormat(data.data).format("d/m/Y H:i:s"), "categoria_id": data.categoria_id, "categoria": data.categoria.nome, "imagem":f"{os.getenv('BASE_URL')}/uploads/receitas/{data.foto}"}}, status=HTTPStatus.OK)
         except Receita.DoesNotExist:
             raise Http404("Receita nao encontrada")
     
     def post(self, request, id):
         fs = FileSystemStorage()
-        fecha = datetime.now()
-        foto = f"{datetime.timestamp(fecha)}{os.path.splitext(str(request.FILES['foto']))[1]}"
+        data = datetime.now()
+        foto = f"{datetime.timestamp(data)}{os.path.splitext(str(request.FILES['foto']))[1]}"
         fs.save(f"exemplo/{foto}", request.FILES['foto'])
         fs.url(request.FILES['foto'])
         return JsonResponse({"estado":"ok", "mensagem":f"Arquivo '{request.FILES['foto'].name}' enviado com sucesso!"}, status=HTTPStatus.CREATED)
