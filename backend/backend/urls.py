@@ -27,6 +27,7 @@ urlpatterns = [
     path('api/v1/', include('receitas.urls')),
     path('api/v1/', include ('contato.urls')),
     path('api/v1/', include ('seguranca.urls')),
+    path('api/v1/', include ('receitas_helper.urls')),
 
     path('api-auth/', include('rest_framework.urls')),
 ]

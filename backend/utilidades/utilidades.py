@@ -25,16 +25,7 @@ def sendMail(html, assunto, para):
     msg["To"] = para
     msg.attach(MIMEText(html, "html", "utf-8"))
 
-    print(f"SMTP: conectando a {servidor}:{porta}", flush=True)
-
     with smtplib.SMTP(servidor, porta, timeout=10) as server:
-        print("SMTP: iniciando TLS", flush=True)
         server.starttls(context=ssl.create_default_context())
-
-        print("SMTP: autenticando", flush=True)
         server.login(usuario, senha)
-
-        print("SMTP: enviando mensagem", flush=True)
         server.sendmail(remetente, [para], msg.as_string())
-
-    print("SMTP: envio concluído", flush=True)

@@ -10,8 +10,9 @@ from dotenv import load_dotenv
 import os
 from datetime import datetime
 from django.core.files.storage import FileSystemStorage
-
-load_dotenv()
+from seguranca.decorators import logado
+from jose import jwt
+from django.conf import settings
 
 # Create your views here.
 class Classe1(APIView):
@@ -21,6 +22,7 @@ class Classe1(APIView):
         data_json = ReceitaSerializer(data, many=True)
         return JsonResponse(data_json.data, safe=False, status=HTTPStatus.OK)
 
+    @logado()
     def post(self, request):
         if request.data.get('nome')==None or not request.data['nome']:
             return JsonResponse({"error": "O campo nome é obrigatório"}, status=HTTPStatus.BAD_REQUEST)
@@ -54,6 +56,9 @@ class Classe1(APIView):
             except Exception as e:
                 return JsonResponse({"error": "Erro ao inserir a foto"}, status=HTTPStatus.BAD_REQUEST)
 
+            header = request.headers.get('Authorization').split(" ")
+            resultado=jwt.decode(header[1], settings.SECRET_KEY, algorithms=['HS512'])
+
             try:
                 Receita.objects.create(
                     categoria_id=(request.data.get('categoria_id')),
@@ -61,7 +66,8 @@ class Classe1(APIView):
                     tempo=(request.data.get('tempo')),
                     foto=foto,
                     descricao=(request.data['descricao']),
-                    data=datetime.now()
+                    data=datetime.now(),
+                    user_id=resultado['id']
                 )
                 return JsonResponse({"message": "Receita criada com sucesso!"}, status=HTTPStatus.CREATED)
             except Exception as e:
@@ -73,10 +79,13 @@ class Classe2(APIView):
     def get(self, request, id):
         try:
             data = Receita.objects.get(id=id)
-            return JsonResponse({"data":{"id": data.id, "nome": data.nome, "slug": data.slug, "tempo": data.tempo, "descricao": data.descricao, "data": DateFormat(data.data).format("d/m/Y H:i:s"), "categoria_id": data.categoria_id, "categoria": data.categoria.nome, "imagem":f"{os.getenv('BASE_URL')}/uploads/receitas/{data.foto}"}}, status=HTTPStatus.OK)
+            return JsonResponse({"data":{"id": data.id, "nome": data.nome, "slug": data.slug, "tempo": data.tempo, "descricao": data.descricao, 
+            "data": DateFormat(data.data).format("d/m/Y H:i:s"), "categoria_id": data.categoria_id, "categoria": data.categoria.nome, 
+            "imagem":f"{os.getenv('BASE_URL')}/uploads/receitas/{data.foto}", "user_id":data.user_id, "user":data.user.first_name}}, status=HTTPStatus.OK)
         except Receita.DoesNotExist:
             raise Http404("Receita nao encontrada")
-    
+
+    @logado()
     def post(self, request, id):
         fs = FileSystemStorage()
         data = datetime.now()
@@ -119,6 +128,7 @@ class Classe2(APIView):
         except Exception as e:
             return JsonResponse({"error": "Erro ao atualizar a receita"}, status=HTTPStatus.BAD_REQUEST)
     
+    @logado()
     def delete(self, request, id):
         try: 
             data = Receita.objects.get(id=id)
