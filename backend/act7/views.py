@@ -4,4 +4,4 @@ from django.http import HttpResponse
 # Create your views here.
 
 def home_inicio(request):
-    return HttpResponse("Bem-vindo ao sistema act 7")
+    return HttpResponse("Bem-vindo ao sistema ACT 7")

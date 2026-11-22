@@ -5,8 +5,29 @@ from http import HTTPStatus
 from django.utils import timezone
 #chamada do modulo utilidades
 from utilidades import utilidades 
+#swagger
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 class Classe1(APIView): 
+
+    @swagger_auto_schema(
+        operation_descripcion="Endpoint para Contato",
+        responses={
+            200:'Success',
+            400:'Bad Request'
+        },
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'nome':openapi.Schema(type=openapi.TYPE_STRING, description='Nome'),
+                'email':openapi.Schema(type=openapi.TYPE_STRING, description='Email'),
+                'telefone':openapi.Schema(type=openapi.TYPE_STRING, description='Telefone'),
+                'mensagem':openapi.Schema(type=openapi.TYPE_STRING, description='Mensagem'),
+            },
+            required=['nome', 'email']
+        )
+    )
 
     def post(self, request): 
         if request.data.get('nome')==None or not request.data['nome']:
