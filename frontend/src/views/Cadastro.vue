@@ -6,7 +6,7 @@ import { cadastroSchema } from '@/schemas/validacoesSchema';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import { ref } from 'vue';
 
-let button = ref('block');
+let botao = ref('block');
 let preloader = ref('none');
 
 let nome = ref('');
@@ -16,7 +16,7 @@ let password = ref('');
 const {sendData} =cadastroComposable();
 
 let enviar =()=>{
-    button.value='none';
+    botao.value='none';
     preloader.value='block';
     sendData({nome:nome.value, email: email.value, password:password.value});
 };
@@ -70,7 +70,7 @@ let enviar =()=>{
                                         placeholder="Senha:" />
                                 </div>
 
-                                <div class="col-12 text-center" :style="'display:' + button">
+                                <div class="col-12 text-center" :style="'display:' + botao">
                                     <button class="btn delicious-btn mt-30" type="submit" title="Enviar">
                                         Enviar
                                     </button>

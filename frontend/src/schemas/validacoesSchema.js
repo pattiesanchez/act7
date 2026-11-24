@@ -24,3 +24,21 @@ export const loginSchema = yup.object(
     }
 )
 
+export const receitasSchema = yup.object(
+    {
+        categoria_id:yup.string().test({
+            name:'categoria_id',
+            skipAbsent: true,
+            test(value, ctx){
+                if(value=='0'){
+                    return ctx.createError({message: 'Selecione uma categoria'})
+                }
+                return true;
+            }
+        }),
+        nome: yup.string().required("O campo nome é obrigatório"),
+        tempo: yup.string().required("O campo tempo é obrigatório"),
+        descricao: yup.string().required("O campo descricao é obrigatório"),
+    }
+)
+

@@ -14,9 +14,21 @@ export const useAuthStore = defineStore('auth',
                 localStorage.setItem('receitas_flaites_nome', data.nome);
                 localStorage.setItem('receitas_flaites_token', data.token);
             },
+            usuarioLogado()
+            {
+                if(this.authId==null){
+                    window.location="/login";
+                }
+                this.authId=localStorage.getItem('receitas_flaites_id'); 
+                this.authNome=localStorage.getItem('receitas_flaites_nome'); 
+                this.authToken=localStorage.getItem('receitas_flaites_token'); 
+            },
             encerrarSecao()
             {
-                
+                if(window.confirm('Deseja realmente sair?')){
+                    localStorage.clear();
+                    window.location='/login'
+                }
             },
         },
     }

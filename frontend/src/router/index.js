@@ -7,6 +7,10 @@ import ReceitasPesquisar from '@/views/ReceitasPesquisar.vue'
 import Contato from '@/views/Contato.vue'
 import Cadastro from '@/views/Cadastro.vue'
 import Login from '@/views/Login.vue'
+import Painel from '@/views/Painel.vue'
+import PainelEditar from '@/views/PainelEditar.vue'
+
+import { useAuthStore } from '@/stores/authStore'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,10 +55,35 @@ const router = createRouter({
       name:'login'
     },
     {
+      path: '/painel',
+      component: Painel,
+      name:'painel',
+      meta:{
+        secure:true
+      }
+    },
+    {
+      path: '/painel/editar/:id',
+      component: PainelEditar,
+      name:'painel_editar',
+      meta:{
+        secure:true
+      }
+    },
+    {
       path: '/:pathMatch(.*)*',
       component: Error404,
     },
   ],
 })
+
+//security
+router.beforeEach((to, from)=>{
+  
+  let store = useAuthStore();
+  if(to.meta.secure){
+    store.usuarioLogado();
+  }
+});
 
 export default router

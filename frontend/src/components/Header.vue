@@ -69,8 +69,7 @@ let store= useAuthStore();
 
                                     <li v-if="store.authId!=null"><router-link :to="{name:'painel'}" :title="`Olá ${store.authNome}`">{{ 'Olá '+store.authNome }}</router-link></li>
                                     <li v-if="store.authId!=null">
-                                        <router-link v-on:click="store.sair()" to="#" title="Sair">Sair</router-link>
-                                        <router-link @click="store.encerrarSecao()" to="#" title="Cerrar Sesión">Cerrar sesión</router-link>
+                                        <router-link @click="store.encerrarSecao()" to="#" title="Encerrar">Encerrar</router-link>
                                     </li>
                                      
                                 </ul>

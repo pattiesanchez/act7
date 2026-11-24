@@ -6,7 +6,7 @@ import { ref } from 'vue'
 import { contatoSchema } from '@/schemas/validacoesSchema'
 import { useContatoComposable } from '@/composables/useContatoComposable'
 
-let button = ref('block');
+let botao = ref('block');
 let preloader = ref('none');
 
 let nome = ref('');
@@ -17,7 +17,7 @@ let mensagem = ref('');
 const {sendData} =useContatoComposable();
 
 let enviar =()=>{
-    button.value='none';
+    botao.value='none';
     preloader.value='block';
     sendData({nome:nome.value, email: email.value, telefone:telefone.value, mensagem: mensagem.value});
 };
@@ -118,7 +118,7 @@ let enviar =()=>{
                                     <Field as="textarea" name="mensagem" class="form-control" v-model="mensagem" placeholder="Mensagem" cols="30" row="10" />
                                 </div>
 
-                                <div class="col-12 text-center" :style="'display:'+button">
+                                <div class="col-12 text-center" :style="'display:'+botao">
                                     <button class="btn delicious-btn mt-30" type="submit" title="Enviar">
                                         Enviar
                                     </button>
