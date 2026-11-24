@@ -1,7 +1,7 @@
 <script setup>
-// import { useAuthStore } from '@/stores/authStore';
+import { useAuthStore } from '@/stores/authStore'
 
-// let store= useAuthStore(); 
+let store= useAuthStore(); 
 </script>
 
 <template>
@@ -64,13 +64,13 @@
                                     <li><router-link to="/receitas" title="Receitas">Receitas</router-link></li>
                                     <li><router-link to="/contato" title="Contato">Contato</router-link></li>
 
-                                    <li v-if="store.authId==null"><router-link to="/registro" title="Registro">Cadastre-se</router-link></li>
+                                    <li v-if="store.authId==null"><router-link to="/cadastro" title="Cadastro">Cadastre-se</router-link></li>
                                     <li v-if="store.authId==null"><router-link :to="{name:'login'}" title="Login">Login</router-link></li>
 
                                     <li v-if="store.authId!=null"><router-link :to="{name:'painel'}" :title="`Olá ${store.authNome}`">{{ 'Olá '+store.authNome }}</router-link></li>
                                     <li v-if="store.authId!=null">
                                         <router-link v-on:click="store.sair()" to="#" title="Sair">Sair</router-link>
-                                        <!--<router-link @click="store.cerrarSesion()" to="#" title="Cerrar Sesión">Cerrar sesión</router-link>-->
+                                        <router-link @click="store.encerrarSecao()" to="#" title="Cerrar Sesión">Cerrar sesión</router-link>
                                     </li>
                                      
                                 </ul>

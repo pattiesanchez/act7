@@ -1,6 +1,13 @@
 <script setup>
-import Header from '@/components/Header.vue';
-import Footer from '@/components/Footer.vue';
+import { onMounted, ref } from 'vue'
+import Header from '@/components/Header.vue'
+import Footer from '@/components/Footer.vue'
+import { getDadosHome } from '@/services/homeService'
+
+let dados = ref([]);
+
+onMounted(async()=>{dados.value = await getDadosHome()});
+
 </script>
 
 <template>
