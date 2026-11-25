@@ -1,35 +1,36 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
-export const useAuthStore = defineStore('auth',
-    {
-        state: () => ({
-            authId:(localStorage.getItem('receitas_flaites_id') !=null) ? localStorage.getItem('receitas_flaites_id'): null,
-            authNome:(localStorage.getItem('receitas_flaites_nome') !=null) ? localStorage.getItem('receitas_flaites_nome'): null,
-            authToken:(localStorage.getItem('receitas_flaites_token') !=null) ? localStorage.getItem('receitas_flaites_token'): null
-        }),
-        actions: {
-            iniciarSecao(data)
-            {
-                localStorage.setItem('receitas_flaites_id', data.id);
-                localStorage.setItem('receitas_flaites_nome', data.nome);
-                localStorage.setItem('receitas_flaites_token', data.token);
-            },
-            usuarioLogado()
-            {
-                if(this.authId==null){
-                    window.location="/login";
-                }
-                this.authId=localStorage.getItem('receitas_flaites_id'); 
-                this.authNome=localStorage.getItem('receitas_flaites_nome'); 
-                this.authToken=localStorage.getItem('receitas_flaites_token'); 
-            },
-            encerrarSecao()
-            {
-                if(window.confirm('Deseja realmente sair?')){
-                    localStorage.clear();
-                    window.location='/login'
-                }
-            },
-        },
-    }
-);
+const storageKeys = {
+  id: 'receitas_flaites_id',
+  name: 'receitas_flaites_nome',
+  token: 'receitas_flaites_token',
+}
+
+export const useAuthStore = defineStore('auth', {
+  state: () => ({
+    authId: localStorage.getItem(storageKeys.id),
+    authNome: localStorage.getItem(storageKeys.name),
+    authToken: localStorage.getItem(storageKeys.token),
+  }),
+
+  actions: {
+    iniciarSecao({ id, nome, token }) {
+      localStorage.setItem(storageKeys.id, id)
+      localStorage.setItem(storageKeys.name, nome)
+      localStorage.setItem(storageKeys.token, token)
+      this.authId = String(id)
+      this.authNome = nome
+      this.authToken = token
+    },
+
+    encerrarSecao() {
+      if (!window.confirm('Deseja realmente sair?')) return false
+
+      Object.values(storageKeys).forEach((key) => localStorage.removeItem(key))
+      this.authId = null
+      this.authNome = null
+      this.authToken = null
+      return true
+    },
+  },
+})

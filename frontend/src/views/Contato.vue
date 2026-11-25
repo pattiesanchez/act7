@@ -1,141 +1,147 @@
 <script setup>
-import Header from '@/components/Header.vue'
-import Footer from '@/components/Footer.vue'
-import { Form, Field, ErrorMessage } from 'vee-validate'
+import { Form } from 'vee-validate'
 import { ref } from 'vue'
-import { contatoSchema } from '@/schemas/validacoesSchema'
+import CampoFormulario from '@/components/CampoFormulario.vue'
 import { useContatoComposable } from '@/composables/useContatoComposable'
+import { contatoSchema } from '@/schemas/validacoesSchema'
 
 defineOptions({ name: 'PaginaContato' })
 
-let botao = ref('block');
-let preloader = ref('none');
+const { sendData } = useContatoComposable()
+const mensagemEnviada = ref(false)
+const erroEnvio = ref('')
 
-let nome = ref('');
-let email = ref('');
-let telefone = ref('');
-let mensagem = ref('');
-
-const {sendData} =useContatoComposable();
-
-let enviar =()=>{
-    botao.value='none';
-    preloader.value='block';
-    sendData({nome:nome.value, email: email.value, telefone:telefone.value, mensagem: mensagem.value});
-};
-
+async function enviar(valores, { resetForm }) {
+  erroEnvio.value = ''
+  mensagemEnviada.value = false
+  try {
+    await sendData(valores)
+    resetForm()
+    mensagemEnviada.value = true
+  } catch {
+    erroEnvio.value = 'Não foi possível enviar sua mensagem. Tente novamente.'
+  }
+}
 </script>
 
 <template>
-    <Header />
-    <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(img/bg-img/breadcumb4.jpg)">
-        <div class="container h-100">
-            <div class="row h-100 align-items-center">
-                <div class="col-12">
-                    <div class="breadcumb-text text-center">
-                        <h2>Nosso Contato</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <section class="page-shell contact-page" aria-labelledby="contact-title">
+    <div class="contact-page__intro">
+      <h1 id="contact-title">Fale com a ACT7</h1>
+      <p>Tem uma dúvida ou sugestão sobre as receitas? Envie uma mensagem pelo formulário.</p>
+      <a class="contact-email" href="mailto:info@act7.com.br">info@act7.com.br</a>
     </div>
 
-
-    <div class="contact-information-area section-padding-80">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="logo mb-80">
-                        <img src="/img/core-img/logo2.png" alt="" style="width: 144px;height:65px" />
-                    </div>
-                </div>
-            </div>
-
-            <div class="row"> 
-
-                <div class="col-12 col-lg-12">
-                    <div class="row">
-                        <div class="col-4">
-                            <div class="single-contact-information mb-30">
-                                <h6>Endereco:</h6>
-                                <p>481 Creekside Lane Avila <br />Beach, CA 93424</p>
-                            </div>
-                        </div>
-
-                        <div class="col-4">
-                            <div class="single-contact-information mb-30">
-                                <h6>Telefones:</h6>
-                                <p>+53 345 7953 32453 <br />+53 345 7557 822112</p>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="single-contact-information mb-30">
-                                <h6>Email:</h6>
-                                <p>{{ 'yourmail@gmail.com' }}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <div class="contact-area section-padding-0-80">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="section-heading">
-                        <h3>Em que podemos ajudar!</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <div class="contact-form-area">
-                        <Form :validation-schema="contatoSchema" @submit="enviar()">
-
-                            <div class="row">
-
-                                <div class="col-12 col-lg-6">
-                                    <ErrorMessage name="nome" class="text text-danger" />
-                                    <Field type="text" name="nome" class="form-control" v-model="nome" placeholder="Nome" />
-                                </div>
-
-                                <div class="col-12 col-lg-6">
-                                    <ErrorMessage name="email" class="text text-danger" />
-                                    <Field type="text" name="email" class="form-control" v-model="email" placeholder="Email" />
-                                </div>
-
-
-                                <div class="col-12">
-                                    <ErrorMessage name="telefone" class="text text-danger" />
-                                    <Field type="text" name="telefone" class="form-control" v-model="telefone" placeholder="Telefone" />
-                                </div>
-
-                                <div class="col-12">
-                                    <ErrorMessage name="mensagem" class="text text-danger" />
-                                    <Field as="textarea" name="mensagem" class="form-control" v-model="mensagem" placeholder="Mensagem" cols="30" row="10" />
-                                </div>
-
-                                <div class="col-12 text-center" :style="'display:'+botao">
-                                    <button class="btn delicious-btn mt-30" type="submit" title="Enviar">
-                                        Enviar
-                                    </button>
-                                </div>
-                                <div class="col-12 text-center" :style="'display:'+preloader">
-                                    <img src="/img/img/load.gif" />
-                                </div>
-
-                            </div>
-
-                        </Form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <Footer />
+    <Form
+      class="contact-form"
+      :validation-schema="contatoSchema"
+      v-slot="{ isSubmitting }"
+      novalidate
+      @submit="enviar"
+    >
+      <div class="contact-form__row">
+        <CampoFormulario name="nome" label="Nome" autocomplete="name" />
+        <CampoFormulario name="email" label="E-mail" type="email" autocomplete="email" />
+      </div>
+      <CampoFormulario name="telefone" label="Telefone" type="tel" autocomplete="tel" />
+      <CampoFormulario name="mensagem" label="Mensagem" as="textarea" />
+      <p v-if="erroEnvio" class="contact-form__error" role="alert">{{ erroEnvio }}</p>
+      <p v-if="mensagemEnviada" class="contact-form__success" role="status">
+        Sua mensagem foi registrada.
+      </p>
+      <button class="button button--primary" type="submit" :disabled="isSubmitting">
+        {{ isSubmitting ? 'Enviando…' : 'Enviar mensagem' }}
+      </button>
+    </Form>
+  </section>
 </template>
+
+<style scoped>
+.contact-page {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+  align-items: start;
+  gap: clamp(1.75rem, 6vw, 5rem);
+  padding-block: clamp(2.5rem, 8vw, 6.5rem);
+}
+
+.contact-page__intro {
+  max-width: 24rem;
+}
+
+.contact-page__intro h1 {
+  margin: 0;
+  font: 650 clamp(2.5rem, 5vw, 4.25rem) / 1.03 var(--font-display);
+  letter-spacing: -0.055em;
+}
+
+.contact-page__intro p {
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.contact-email {
+  display: inline-block;
+  margin-top: 1rem;
+  color: var(--accent);
+}
+
+.contact-form {
+  display: grid;
+  gap: 1.125rem;
+  border: 1px solid var(--line);
+  border-radius: 1.5rem;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  background: var(--surface);
+}
+
+.contact-form__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.contact-form :deep(textarea) {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+.contact-form button {
+  justify-self: start;
+}
+
+.contact-form__error,
+.contact-form__success {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.contact-form__error {
+  color: var(--danger, #ffc2d5);
+}
+
+.contact-form__success {
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  color: var(--text);
+  background: var(--surface-raised);
+}
+
+@media (max-width: 760px) {
+  .contact-page {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-form__row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .contact-form button {
+    width: 100%;
+  }
+}
+</style>

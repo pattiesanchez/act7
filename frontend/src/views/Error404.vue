@@ -3,29 +3,58 @@ defineOptions({ name: 'PaginaErro404' })
 </script>
 
 <template>
-    <section class="about-area section-padding-80">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="section-heading">
-                        <h3>Ops! Página não encontrada</h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <h6 class="sub-heading pb-5">Error 404 - Not Found</h6>
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="col-12 centrado">
-                    <img class="mb-70 text-center" src="/img/img/404.png" alt="" />
-
-                </div>
-            </div>
-        </div>
-    </section>
+  <section class="page-shell not-found-page" aria-labelledby="not-found-title">
+    <div class="not-found-page__panel">
+      <p class="eyebrow">Erro 404</p>
+      <h1 id="not-found-title">Página não encontrada</h1>
+      <p class="not-found-page__description">Confira se o endereço está correto.</p>
+      <div class="not-found-page__actions">
+        <RouterLink class="button button--primary" :to="{ name: 'home' }">
+          Voltar ao início
+        </RouterLink>
+        <RouterLink class="button button--secondary" :to="{ name: 'receitas' }">
+          Explorar receitas
+        </RouterLink>
+      </div>
+    </div>
+  </section>
 </template>
+
+<style scoped>
+.not-found-page {
+  padding-block: clamp(2.5rem, 8vw, 6.5rem);
+}
+
+.not-found-page__panel {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  min-height: 22rem;
+  align-content: center;
+  padding: clamp(1.25rem, 6vw, 4rem);
+  border: 1px solid var(--line);
+  border-radius: 1.5rem;
+  background:
+    radial-gradient(ellipse at left top, color-mix(in srgb, var(--accent) 18%, transparent), transparent 60%),
+    var(--surface);
+}
+
+.not-found-page__panel h1 {
+  margin: 0.75rem 0 0;
+  font: 650 clamp(2.25rem, 5vw, 4rem) / 1.05 var(--font-display);
+  letter-spacing: -0.05em;
+}
+
+.not-found-page__description {
+  margin: 1rem 0 0;
+  color: var(--muted);
+}
+
+.not-found-page__actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  margin-top: 1.5rem;
+}
+</style>

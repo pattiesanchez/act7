@@ -14,6 +14,11 @@ import { useAuthStore } from '@/stores/authStore'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) return savedPosition
+    if (to.hash) return { el: to.hash }
+    if (to.path !== from.path) return { top: 0 }
+  },
   routes: [
     {
       path: '/',
@@ -77,13 +82,11 @@ const router = createRouter({
   ],
 })
 
-//security
-router.beforeEach((to)=>{
-  
-  let store = useAuthStore();
-  if(to.meta.secure){
-    store.usuarioLogado();
+router.beforeEach((to) => {
+  const auth = useAuthStore()
+  if (to.meta.secure && (!auth.authId || !auth.authToken)) {
+    return { name: 'login' }
   }
-});
+})
 
 export default router
