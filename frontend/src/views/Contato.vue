@@ -6,6 +6,8 @@ import { ref } from 'vue'
 import { contatoSchema } from '@/schemas/validacoesSchema'
 import { useContatoComposable } from '@/composables/useContatoComposable'
 
+defineOptions({ name: 'PaginaContato' })
+
 let botao = ref('block');
 let preloader = ref('none');
 

@@ -6,6 +6,8 @@ import { loginSchema } from '@/schemas/validacoesSchema';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import { ref } from 'vue';
 
+defineOptions({ name: 'PaginaLogin' })
+
 let botao = ref('block');
 let preloader = ref('none');
 

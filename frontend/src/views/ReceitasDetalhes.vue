@@ -7,7 +7,7 @@ import { watchEffect } from 'vue';
 
 let route = useRoute();
 
-const {dado:dado, error: error} = receitaComposable(route.params.slug);
+const {dado, error} = receitaComposable(route.params.slug);
  
 watchEffect(()=>
 {

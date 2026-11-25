@@ -6,6 +6,8 @@ import { cadastroSchema } from '@/schemas/validacoesSchema';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import { ref } from 'vue';
 
+defineOptions({ name: 'PaginaCadastro' })
+
 let botao = ref('block');
 let preloader = ref('none');
 

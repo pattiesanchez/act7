@@ -5,7 +5,7 @@ import { receitasComposables } from '@/composables/receitasComposables'
 import { watchEffect, ref } from 'vue'
 import { Form, Field } from 'vee-validate'
 
-const {dados:dados, categorias: categorias, error:error} = receitasComposables();
+const {dados, categorias, error} = receitasComposables();
 
 watchEffect(()=>
 {

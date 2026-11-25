@@ -1,5 +1,5 @@
 <script setup>
-
+defineOptions({ name: 'PaginaErro404' })
 </script>
 
 <template>

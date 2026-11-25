@@ -4,6 +4,8 @@ import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 import { getDadosHome } from '@/services/homeService'
 
+defineOptions({ name: 'PaginaHome' })
+
 let dados = ref([]);
 
 onMounted(async()=>{dados.value = await getDadosHome()});

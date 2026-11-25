@@ -5,7 +5,7 @@ export function receitaComposable(slug)
     let dado = ref([]);
     let error = ref(null);
 
-    let getDados = async(slug)=> 
+    let getDados = async()=>
     {
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL}receitas/slug/${slug}`,

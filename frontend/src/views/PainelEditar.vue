@@ -40,7 +40,7 @@ let enviar=async ()=>
             alert("Editado com sucesso");
             window.location='/painel/';
         }
-    } catch (err) {
+    } catch {
         alert("Ocorreu um erro inesperado");
         window.location="/painel/editar/"+route.params.id;
     }

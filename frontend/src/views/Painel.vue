@@ -10,6 +10,8 @@ import axios from 'axios';
 import { Fancybox } from '@fancyapps/ui/dist/fancybox/'
 import '@fancyapps/ui/dist/fancybox/fancybox.css'
 
+defineOptions({ name: 'PaginaPainel' })
+
 let dados = ref([]);
 let categorias = ref([]);
 
@@ -57,7 +59,7 @@ let enviar=()=>
        
         axios.post(`${import.meta.env.VITE_API_URL}receitas`, formData, 
             {headers:{'Authorization': `Bearer ${localStorage.getItem('receitas_flaites_token')}`}})
-        .then((response)=>{
+        .then(()=>{
             alert("Registro criado com sucesso");
             window.location="/painel";
         })
@@ -71,7 +73,7 @@ let enviar=()=>
         axios.put(`${import.meta.env.VITE_API_URL}receitas/${receitas_id.value}`, 
             {nome:nome.value, tempo: tempo.value, descricao:descricao.value, categoria_id: categoria_id.value}, 
             {headers:{'Authorization': `Bearer ${localStorage.getItem('receitas_flaites_token')}`}})
-        .then((response)=>{
+        .then(()=>{
             alert("Registro modificado com sucesso");
             window.location="/painel";
         })
@@ -106,7 +108,7 @@ const deletar=(id)=>
     if(window.confirm("Realmente deseja deletar o registro?"))
     {
         axios.delete(`${import.meta.env.VITE_API_URL}receitas/${id}`, {headers:{'Authorization': `Bearer ${localStorage.getItem('receitas_flaites_token')}`}})
-        .then((response)=>{
+        .then(()=>{
             alert("Registro deletado com sucesso");
             window.location="/painel";
         })
@@ -185,9 +187,9 @@ const deletar=(id)=>
                                 <i class="fas fa-edit"></i>
                             </a>
                             &nbsp;&nbsp;
-                            <router-link to="#" @click.navigate="deletar(dado.id)" title="Deletar">
+                            <a href="#" @click.prevent="deletar(dado.id)" title="Deletar">
                                 <i class="fas fa-trash"></i>
-                            </router-link>
+                            </a>
                         </td>
                     </tr>
                   </tbody>
