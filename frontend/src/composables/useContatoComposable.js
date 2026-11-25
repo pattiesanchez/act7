@@ -1,4 +1,4 @@
-export function useContatoComposable(body)
+export function useContatoComposable()
 {
     let sendData=async(body)=>{
         try{ 
@@ -14,7 +14,7 @@ export function useContatoComposable(body)
                 window.location=location.href;
             }
         } catch (error) {
-            throw new Error("Erro no envio")
+            throw new Error("Erro no envio", { cause: error })
         }
     }
 

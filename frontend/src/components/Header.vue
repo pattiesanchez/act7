@@ -1,6 +1,8 @@
 <script setup>
 import { useAuthStore } from '@/stores/authStore'
 
+defineOptions({ name: 'AppHeader' })
+
 let store= useAuthStore(); 
 </script>
 

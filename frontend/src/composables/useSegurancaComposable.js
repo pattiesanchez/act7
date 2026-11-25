@@ -1,7 +1,7 @@
 import { useAuthStore } from '@/stores/authStore';
 import axios from 'axios'
 
-export function cadastroComposable(body)
+export function cadastroComposable()
 { 
     let sendData = async(body)=>
     {  
@@ -9,7 +9,7 @@ export function cadastroComposable(body)
             `${import.meta.env.VITE_API_URL}seguranca/registro`, 
             body, 
             {headers:{'content-type':'application/json'}})
-            .then((response) => {
+            .then(() => {
                 alert('Cadastrado com sucesso!\n Enviamos um email para ativação de usuário');
                 window.location=location.href;
             })
@@ -21,7 +21,7 @@ export function cadastroComposable(body)
     return {sendData};
 }
 
-export function loginComposable(body)
+export function loginComposable()
 { 
     let sendData = async(body)=>
     {  
@@ -39,7 +39,7 @@ export function loginComposable(body)
                     alert('Ocorreu um erro inesperado');
                     window.location=location.href;
                 });
-        } catch (error) { 
+        } catch {
             alert('Ocorreu um erro inesperado');
             window.location=location.href;
         }

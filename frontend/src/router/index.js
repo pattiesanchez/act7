@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import sobreNos from '@/views/sobreNos.vue'
+import SobreNos from '@/views/SobreNos.vue'
 import Error404 from '@/views/Error404.vue'
 import ReceitasDetalhes from '@/views/ReceitasDetalhes.vue'
 import Receitas from '@/views/Receitas.vue'
@@ -22,7 +22,7 @@ const router = createRouter({
     },
     {
       path: '/sobre-nos',
-      component: sobreNos,
+      component: SobreNos,
       name:'sobreNos'
     },
     {
@@ -78,7 +78,7 @@ const router = createRouter({
 })
 
 //security
-router.beforeEach((to, from)=>{
+router.beforeEach((to)=>{
   
   let store = useAuthStore();
   if(to.meta.secure){
