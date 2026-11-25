@@ -1,48 +1,26 @@
-import { useAuthStore } from '@/stores/authStore';
 import axios from 'axios'
+import { apiUrl } from '@/services/apiUrl'
+import { useAuthStore } from '@/stores/authStore'
 
-export function cadastroComposable()
-{ 
-    let sendData = async(body)=>
-    {  
-        axios.post(
-            `${import.meta.env.VITE_API_URL}seguranca/registro`, 
-            body, 
-            {headers:{'content-type':'application/json'}})
-            .then(() => {
-                alert('Cadastrado com sucesso!\n Enviamos um email para ativação de usuário');
-                window.location=location.href;
-            })
-            .catch(() => {
-                alert('Ocorreu um erro inesperado');
-                window.location=location.href;
-            });
-    };
-    return {sendData};
+export function cadastroComposable() {
+  function sendData(body) {
+    return axios.post(apiUrl('seguranca/registro'), body, {
+      headers: { 'content-type': 'application/json' },
+    })
+  }
+
+  return { sendData }
 }
 
-export function loginComposable()
-{ 
-    let sendData = async(body)=>
-    {  
-        try{
-            axios.post(
-                `${import.meta.env.VITE_API_URL}seguranca/login`, 
-                body, 
-                {headers:{'content-type':'application/json'}})
-                .then((response) => {
-                    let store = useAuthStore();
-                    store.iniciarSecao(response.data);
-                    window.location="/painel";
-                })
-                .catch(() => {
-                    alert('Ocorreu um erro inesperado');
-                    window.location=location.href;
-                });
-        } catch {
-            alert('Ocorreu um erro inesperado');
-            window.location=location.href;
-        }
-    };
-    return {sendData};
+export function loginComposable() {
+  const store = useAuthStore()
+
+  async function sendData(body) {
+    const response = await axios.post(apiUrl('seguranca/login'), body, {
+      headers: { 'content-type': 'application/json' },
+    })
+    store.iniciarSecao(response.data)
+  }
+
+  return { sendData }
 }

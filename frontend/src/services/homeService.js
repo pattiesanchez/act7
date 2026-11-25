@@ -1,8 +1,11 @@
-export async function getDadosHome()
-{
-    let resposta = await fetch(`${import.meta.env.VITE_API_URL}receitas-home`,
-        {headers:{'content-type':'application/json'}});
-    const resultado = await resposta.json();
-    
-    return resultado; 
+import { apiUrl } from '@/services/apiUrl'
+
+export async function getDadosHome() {
+  const response = await fetch(apiUrl('receitas-home'))
+  if (!response.ok) throw new Error('Não foi possível carregar os destaques.')
+
+  const { data } = await response.json()
+  if (!Array.isArray(data)) throw new Error('A resposta de receitas é inválida.')
+
+  return data
 }

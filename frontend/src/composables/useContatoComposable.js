@@ -1,24 +1,17 @@
-export function useContatoComposable()
-{
-    let sendData=async(body)=>{
-        try{ 
-            let resposta = await fetch(`${import.meta.env.VITE_API_URL}contato`, {
-                method: 'POST',
-                body: JSON.stringify(body),
-                headers:{'content-type':"application/json"}
-            })
-            
-            if(resposta.status==200)
-            {
-                alert("A sua mensagem foi enviada com sucesso");
-                window.location=location.href;
-            }
-        } catch (error) {
-            throw new Error("Erro no envio", { cause: error })
-        }
-    }
+import { apiUrl } from '@/services/apiUrl'
 
-    return{
-        sendData
+export function useContatoComposable() {
+  async function sendData(body) {
+    const resposta = await fetch(apiUrl('contato'), {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: { 'content-type': 'application/json' },
+    })
+
+    if (!resposta.ok) {
+      throw new Error('Não foi possível enviar sua mensagem.')
     }
+  }
+
+  return { sendData }
 }
