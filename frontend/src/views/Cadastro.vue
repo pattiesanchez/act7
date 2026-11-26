@@ -21,15 +21,15 @@ async function enviar(valores) {
     const mensagem = error.response?.data?.error
     erroEnvio.value = typeof mensagem === 'string'
       ? mensagem
-      : 'Não foi possível criar a conta. Tente novamente.'
+      : 'Não foi possível criar a conta. Tente novamente'
   }
 }
 </script>
 
 <template>
-  <CartaoAcesso title="Crie sua conta" description="Publique e gerencie suas receitas no painel.">
+  <CartaoAcesso title="Crie sua conta" description="Publique e gerencie suas receitas no painel">
     <p v-if="cadastroConcluido" class="form-success" role="status">
-      Cadastro concluído. Confira seu e-mail e siga o link para ativar sua conta.
+      Cadastro concluído. Confira seu e-mail e siga o link para ativar sua conta
     </p>
 
     <Form

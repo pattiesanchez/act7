@@ -5,9 +5,10 @@ defineOptions({ name: 'PaginaErro404' })
 <template>
   <section class="page-shell not-found-page" aria-labelledby="not-found-title">
     <div class="not-found-page__panel">
-      <p class="eyebrow">Erro 404</p>
-      <h1 id="not-found-title">Página não encontrada</h1>
-      <p class="not-found-page__description">Confira se o endereço está correto.</p>
+      <img class="not-found-page__image" src="/img/img/404.png" alt="erro 404"/>
+      <!-- <p class="eyebrow">Erro 404</p> -->
+      <!-- <h1 id="not-found-title">Página não encontrada</h1> -->
+      <!-- <p class="not-found-page__description">Confira se o endereço está correto</p> -->
       <div class="not-found-page__actions">
         <RouterLink class="button button--primary" :to="{ name: 'home' }">
           Voltar ao início
@@ -56,5 +57,14 @@ defineOptions({ name: 'PaginaErro404' })
   flex-wrap: wrap;
   gap: 0.625rem;
   margin-top: 1.5rem;
+}
+
+.not-found-page__image {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  margin: 0 auto 16px;
+  border-radius: 8vh;
 }
 </style>

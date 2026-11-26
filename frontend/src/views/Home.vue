@@ -32,9 +32,9 @@ onMounted(loadRecipes)
     <div class="page-shell hero-inner">
       <div class="hero-copy">
         <p class="eyebrow hero-kicker">Receitas da comunidade</p>
-        <h1 id="home-title">Confeitaria<br /><span>feita em casa.</span></h1>
+        <h1 id="home-title">Confeitaria<br /><span>feita em casa</span></h1>
         <p class="hero-description">
-          Descubra bolos, doces e sobremesas para o café da tarde e para ocasiões especiais.
+          Descubra bolos, doces e sobremesas para o café da tarde e para ocasiões especiais
         </p>
         <div class="hero-actions">
           <RouterLink class="button button--primary" :to="{ name: 'receitas' }">
@@ -70,14 +70,14 @@ onMounted(loadRecipes)
       <div v-for="card in 3" :key="card" class="recipe-skeleton" aria-hidden="true"></div>
     </div>
     <div v-else-if="loadError" class="featured-state" role="status">
-      <p>Não foi possível carregar os destaques.</p>
+      <p>Não foi possível carregar os destaques</p>
       <button class="button button--secondary" type="button" @click="loadRecipes">Tentar novamente</button>
     </div>
     <div v-else-if="recipes.length" class="featured-grid">
       <RecipeCard v-for="recipe in recipes" :key="recipe.id ?? recipe.slug" :recipe="recipe" />
     </div>
     <div v-else class="featured-state">
-      <p>As receitas publicadas pela comunidade aparecerão aqui.</p>
+      <p>As receitas publicadas pela comunidade aparecerão aqui</p>
       <RouterLink class="section-link" :to="{ name: 'receitas' }">Abrir catálogo <span aria-hidden="true">→</span></RouterLink>
     </div>
   </section>
@@ -86,7 +86,7 @@ onMounted(loadRecipes)
     <section class="share-card" aria-labelledby="share-title">
       <div>
         <h2 id="share-title">Compartilhe sua receita</h2>
-        <p>Publique uma criação da sua cozinha no catálogo da ACT7.</p>
+        <p>Publique uma criação da sua cozinha no catálogo da ACT7</p>
       </div>
       <RouterLink class="button button--primary" :to="{ name: auth.authId ? 'painel' : 'cadastro' }">
         {{ auth.authId ? 'Acessar meu painel' : 'Criar minha conta' }} <span aria-hidden="true">→</span>

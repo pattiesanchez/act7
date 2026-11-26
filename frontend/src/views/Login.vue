@@ -21,14 +21,14 @@ async function enviar(valores) {
   } catch (error) {
     const status = error.response?.status
     erroEnvio.value = status === 400 || status === 404
-      ? 'Confira seu e-mail e senha e verifique se a conta foi ativada.'
-      : 'Não foi possível entrar. Tente novamente.'
+      ? 'Confira seu e-mail e senha e verifique se a conta foi ativada'
+      : 'Não foi possível entrar. Tente novamente'
   }
 }
 </script>
 
 <template>
-  <CartaoAcesso title="Entrar na sua conta" description="Acesse o painel para publicar e editar suas receitas.">
+  <CartaoAcesso title="Acesse sua conta" description="Acesse o painel para publicar e editar suas receitas">
     <Form
       class="access-form"
       :validation-schema="loginSchema"
@@ -43,7 +43,6 @@ async function enviar(valores) {
         {{ isSubmitting ? 'Entrando…' : 'Entrar' }}
       </button>
     </Form>
-
     <template #footer>
       Ainda não tem conta? <RouterLink :to="{ name: 'cadastro' }">Cadastre-se</RouterLink>
     </template>

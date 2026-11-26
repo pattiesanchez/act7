@@ -39,7 +39,7 @@ async function carregarReceita(id = route.params.id) {
     receita.value = resposta.data.data
   } catch {
     if (!signal.aborted) {
-      erroCarga.value = 'Não foi possível carregar esta receita.'
+      erroCarga.value = 'Não foi possível carregar esta receita'
     }
   } finally {
     if (!signal.aborted) {

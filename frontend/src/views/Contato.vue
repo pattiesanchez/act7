@@ -19,7 +19,7 @@ async function enviar(valores, { resetForm }) {
     resetForm()
     mensagemEnviada.value = true
   } catch {
-    erroEnvio.value = 'Não foi possível enviar sua mensagem. Tente novamente.'
+    erroEnvio.value = 'Não foi possível enviar sua mensagem. Tente novamente'
   }
 }
 </script>
@@ -27,9 +27,8 @@ async function enviar(valores, { resetForm }) {
 <template>
   <section class="page-shell contact-page" aria-labelledby="contact-title">
     <div class="contact-page__intro">
-      <h1 id="contact-title">Fale com a ACT7</h1>
-      <p>Tem uma dúvida ou sugestão sobre as receitas? Envie uma mensagem pelo formulário.</p>
-      <a class="contact-email" href="mailto:info@act7.com.br">info@act7.com.br</a>
+      <h1 id="contact-title">Fale conosco</h1>
+      <p>Tem uma dúvida ou sugestão sobre as receitas? Envie uma mensagem pelo formulário</p>
     </div>
 
     <Form
@@ -41,13 +40,13 @@ async function enviar(valores, { resetForm }) {
     >
       <div class="contact-form__row">
         <CampoFormulario name="nome" label="Nome" autocomplete="name" />
-        <CampoFormulario name="email" label="E-mail" type="email" autocomplete="email" />
+        <CampoFormulario name="email" label="Email" type="email" autocomplete="email" />
       </div>
       <CampoFormulario name="telefone" label="Telefone" type="tel" autocomplete="tel" />
       <CampoFormulario name="mensagem" label="Mensagem" as="textarea" />
       <p v-if="erroEnvio" class="contact-form__error" role="alert">{{ erroEnvio }}</p>
       <p v-if="mensagemEnviada" class="contact-form__success" role="status">
-        Sua mensagem foi registrada.
+        Sua mensagem foi enviada com sucesso
       </p>
       <button class="button button--primary" type="submit" :disabled="isSubmitting">
         {{ isSubmitting ? 'Enviando…' : 'Enviar mensagem' }}

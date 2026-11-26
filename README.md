@@ -3,16 +3,16 @@
 <p align="center"><strong>Confeitaria feita em casa</strong></p>
 <p align="center">Encontre receitas de bolos, doces e sobremesas e compartilhe suas criações com a comunidade.</p>
 <p align="center">
-  <img src="frontend/public/img/bg-img/act7-bolo-framboesa.jpg" width="240" alt="Fatia de bolo red velvet com creme e framboesas em um prato roxo">
+  <img src="frontend/public/img/bg-img/act7-bolo-framboesa.jpg" width="240" alt="Fatia de bolo red velvet">
 </p>
 <p align="center">Vue 3 · JavaScript · Pinia · Vite · Django REST Framework · MySQL</p>
 
 ## O que você pode fazer
 
-- Explorar o catálogo, buscar receitas por nome ou categoria e consultar o modo de preparo.
-- Criar uma conta com ativação por e-mail e gerenciar suas receitas em um painel com envio e prévia de fotos.
-- Enviar dúvidas e sugestões pelo formulário de contato.
-- Navegar em uma interface responsiva em preto, roxo e branco.
+- Explorar o catálogo, buscar receitas por nome ou categoria e consultar o modo de preparo
+- Criar uma conta com ativação por e-mail e gerenciar suas receitas em um painel com envio e prévia de fotos
+- Enviar dúvidas e sugestões pelo formulário de contato
+- Navegar em uma interface responsiva
 
 ## Rodar localmente
 

@@ -40,13 +40,13 @@ async function carregarPainel() {
     ])
 
     if (!Array.isArray(receitasResposta.data.data) || !Array.isArray(categoriasResposta.data.data)) {
-      throw new Error('Resposta inesperada ao carregar o painel.')
+      throw new Error('Resposta inesperada ao carregar o painel')
     }
 
     receitas.value = receitasResposta.data.data
     categorias.value = categoriasResposta.data.data
   } catch {
-    erroPainel.value = 'Não foi possível carregar suas receitas.'
+    erroPainel.value = 'Não foi possível carregar suas receitas'
   } finally {
     carregando.value = false
   }
@@ -85,7 +85,7 @@ async function carregarCampos() {
     camposIniciais.value = { categoria_id: String(categoria_id), nome, tempo, descricao }
   } catch {
     if (!signal.aborted) {
-      erroDialogo.value = 'Não foi possível abrir os dados da receita.'
+      erroDialogo.value = 'Não foi possível abrir os dados da receita'
     }
   } finally {
     if (!signal.aborted) {
@@ -115,7 +115,7 @@ async function salvarReceita(campos) {
   erroDialogo.value = ''
 
   if (modo.value === 'criar' && !foto.value) {
-    erroDialogo.value = 'Selecione uma foto JPG ou PNG.'
+    erroDialogo.value = 'Selecione uma foto JPG ou PNG'
     return
   }
 
@@ -128,16 +128,16 @@ async function salvarReceita(campos) {
       }
       corpo.append('foto', foto.value)
       await axios.post(apiUrl('receitas'), corpo, configAutenticada())
-      aviso.value = 'Receita publicada com sucesso.'
+      aviso.value = 'Receita publicada com sucesso'
     } else {
       await axios.put(apiUrl(`receitas/${receitaSelecionada.value.id}`), campos, configAutenticada())
-      aviso.value = 'Receita atualizada com sucesso.'
+      aviso.value = 'Receita atualizada com sucesso'
     }
 
     dialogo.value.close()
     await carregarPainel()
   } catch (erro) {
-    erroDialogo.value = erro.response?.data?.error || 'Não foi possível salvar a receita.'
+    erroDialogo.value = erro.response?.data?.error || 'Não foi possível salvar a receita'
   } finally {
     salvando.value = false
   }
@@ -149,7 +149,7 @@ async function excluirReceita() {
 
   try {
     await axios.delete(apiUrl(`receitas/${receitaSelecionada.value.id}`), configAutenticada())
-    aviso.value = 'Receita excluída.'
+    aviso.value = 'Receita excluída'
     dialogo.value.close()
     await carregarPainel()
   } catch (erro) {
@@ -191,7 +191,7 @@ async function excluirReceita() {
     </div>
     <div v-else-if="!receitas.length" class="dashboard-state">
       <h2>Sua primeira receita</h2>
-      <p>Publique uma receita para encontrá-la aqui.</p>
+      <p>Publique uma receita para encontrá-la aqui</p>
     </div>
 
     <ul v-else class="recipe-list" aria-label="Receitas publicadas">
@@ -332,7 +332,7 @@ async function excluirReceita() {
       <template v-else-if="modo === 'excluir'">
         <h2 id="recipe-dialog-title">Excluir receita?</h2>
         <p>
-          A receita <strong>{{ receitaSelecionada.nome }}</strong> será removida do catálogo.
+          A receita <strong>{{ receitaSelecionada.nome }}</strong> será removida do catálogo
         </p>
         <p v-if="erroDialogo" class="form-error" role="alert">{{ erroDialogo }}</p>
         <div class="dialog-actions">

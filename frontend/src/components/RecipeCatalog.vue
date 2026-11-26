@@ -58,7 +58,7 @@ function buscar() {
         <span v-else aria-current="page">Receitas</span>
       </nav>
       <h1>{{ isSearch ? 'Buscar receitas' : 'Receitas' }}</h1>
-      <p>Encontre sua próxima receita pelo nome ou pela categoria.</p>
+      <p>Encontre sua próxima receita pelo nome ou pela categoria</p>
     </header>
 
     <form class="recipe-catalog__filter" role="search" aria-label="Filtrar receitas" @submit.prevent="buscar">

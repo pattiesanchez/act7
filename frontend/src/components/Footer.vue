@@ -1,6 +1,4 @@
 <script setup>
-import BrandLink from '@/components/BrandLink.vue'
-
 defineOptions({ name: 'AppFooter' })
 
 const year = new Date().getFullYear()
@@ -9,14 +7,6 @@ const year = new Date().getFullYear()
 <template>
   <footer class="site-footer">
     <div class="page-shell">
-      <div class="footer-top">
-        <BrandLink />
-        <nav aria-label="Rodapé">
-          <RouterLink :to="{ name: 'receitas' }">Receitas</RouterLink>
-          <RouterLink :to="{ name: 'sobreNos' }">Sobre nós</RouterLink>
-          <RouterLink :to="{ name: 'contato' }">Contato</RouterLink>
-        </nav>
-      </div>
       <div class="footer-bottom">
         <p>© {{ year }} ACT7 Confeitaria</p>
         <p>Desenvolvido por <a href="https://github.com/pattiesanchez" target="_blank" rel="noopener">PSanx</a></p>
